@@ -51,13 +51,14 @@ class MainActivity : AppCompatActivity() {
                 GsonConverterFactory.create(
                     GsonBuilder()
                         .registerTypeAdapter(Date::class.java, CustomDateTypeAdapter())
+                        .registerTypeAdapter(NewsItem::class.java, NewsTypeAdapter())
                         .create()
                 )
             )
             .build()
         val serverApi = retrofit.create(Sprint11ServerApi::class.java)
 
-        serverApi.getNews1().enqueue(object : Callback<NewsResponse> {
+        serverApi.getNews2().enqueue(object : Callback<NewsResponse> {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 Log.i(TAG, "onResponse: ${response.code()} ${response.body()}")
 
@@ -85,4 +86,7 @@ interface Sprint11ServerApi {
 
     @GET("refs/heads/main/jsons/news_1.json")
     fun getNews1(): Call<NewsResponse>
+
+    @GET("refs/heads/main/jsons/news_2.json")
+    fun getNews2(): Call<NewsResponse>
 }

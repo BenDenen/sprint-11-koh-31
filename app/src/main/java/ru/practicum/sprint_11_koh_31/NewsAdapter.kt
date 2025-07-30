@@ -1,6 +1,8 @@
 package ru.practicum.sprint_11_koh_31
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -41,6 +43,8 @@ class NewsItemViewHolder(
 
     private val title: TextView = itemView.findViewById(R.id.title)
     private val created: TextView = itemView.findViewById(R.id.created)
+    private val sportTeams: TextView = itemView.findViewById(R.id.sport_teams)
+    private val scienceImg: ImageView = itemView.findViewById(R.id.science_img)
 
     fun bind(item: NewsItem) {
         title.text = item.title
@@ -49,6 +53,26 @@ class NewsItemViewHolder(
                 DateFormat.SHORT,
                 DateFormat.SHORT
             ).format(item.created)
+
+        when (item) {
+            is NewsItem.Science -> {
+                scienceImg.visibility = VISIBLE
+                Glide.with(scienceImg)
+                    .load(item.specificPropertyForScience)
+                    .into(scienceImg)
+
+            }
+
+            is NewsItem.Sport -> {
+                sportTeams.visibility = VISIBLE
+                sportTeams.text = item.specificPropertyForSport
+            }
+
+            is NewsItem.Unknown -> {
+
+            }
+        }
+
 
     }
 }
